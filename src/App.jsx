@@ -1,9 +1,10 @@
+import TTTGame from './components/TTTGame'
 const App = () => {
   return (
-    <div>
-      hii
-    </div>
+    <>
+      <TTTGame />
+    </>
   );
-}
- 
+};
+
 export default App;
