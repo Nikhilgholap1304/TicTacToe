@@ -79,22 +79,22 @@ const Board = ({ mode, resetGame, isPlayerTurn, setIsPlayerTurn }) => {
 
   return (
     <div>
-      <h1>Tic Tac Toe</h1>
-      <div className="w-fit grid grid-cols-3 grid-rows-3 gap-1">
+      <h1 className="text-3xl mb-10 font-bold">Tic Tac Toe</h1>
+      <div className="w-fit grid grid-cols-3 grid-rows-3 gap-2">
         {board.map((value, index) => (
           <div
             key={index}
             onClick={() => handleClick(index)}
-            className="w-24 h-24 flex justify-center items-center border-[1px] border-solid border-black text-2xl cursor-pointer"
+            className="w-24 h-24 flex justify-center items-center border-[2px] border-solid border-[#a4ffd6] text-2xl cursor-pointer rounded"
           >
-            {value}
+            <h1 className="text-5xl font-bold text-[#8dffab]">{value}</h1>
           </div>
         ))}
       </div>
       {winner && (
-        <div>
-          <h2>{winner === "Draw" ? "Its's a Draw" : `Winner: ${winner}`}</h2>
-          <button onClick={resetGame}>Play Again</button>
+        <div className="border border-solid border-emerald-200 mt-5 p-4 rounded">
+          <h2 className="text-2xl">{winner === "Draw" ? "Its's a Draw" : `Winner is ' ${winner} '`}</h2>
+          <button onClick={resetGame} className="px-4 py-2 bg-emerald-300 rounded-sm mt-3 text-gray-700 font-bold hover:scale-[0.98] transition">Play Again</button>
         </div>
       )}
     </div>
