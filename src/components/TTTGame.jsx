@@ -19,7 +19,7 @@ const TTTGame = () => {
       {!mode ? (
         <div>
           <h1>Choose Game Mode</h1>
-          <button onClick={() => chooseMode("twoPlayer")}>Two Player</button>
+          <button onClick={() => chooseMode("twoPlayer")}>Two Player</button><br></br>
           <button onClick={() => chooseMode("vsAI")}>You vs AI</button>
         </div>
       ) : (

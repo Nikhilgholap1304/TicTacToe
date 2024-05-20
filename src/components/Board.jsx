@@ -32,25 +32,61 @@ const Board = ({ mode, resetGame, isPlayerTurn, setIsPlayerTurn }) => {
     return board.every(Boolean) ? "Draw" : null;
   };
 
+  const bestMove = () => {
+    const emptyIndexes = board.reduce(
+      (acc, val, idx) => (val === null ? acc.concat(idx) : acc),
+      []
+    );
+
+    //try to win
+    for (let index of emptyIndexes) {
+      const newBoard = [...board];
+      newBoard[index] = "O";
+      if (checkWinner(newBoard) === "O") return index;
+    }
+    // Block opponent from winning
+    for (let index of emptyIndexes) {
+      const newBoard = [...board];
+      newBoard[index] = "X";
+      if (checkWinner(newBoard) === "X") return index;
+    }
+
+    // Pick a center, corner, or side in order of priority
+    const center = 4;
+    if (emptyIndexes.includes(center)) return center;
+
+    const corners = [0, 2, 6, 8];
+    for (let corner of corners) {
+      if (emptyIndexes.includes(corner)) return corner;
+    }
+
+    const sides = [1, 3, 5, 7];
+    for (let side of sides) {
+      if (emptyIndexes.includes(side)) return side;
+    }
+
+    // Default to random move if all else fails
+    return emptyIndexes[Math.floor(Math.random() * emptyIndexes.length)];
+  };
+
   useEffect(() => {
     setWinner(checkWinner(board));
     if (mode === "vsAI" && !isPlayerTurn && !winner) {
-      const emptyIndexes = board.reduce(
-        (acc, val, idx) => (val === null ? acc.concat(idx) : acc),
-        []
-      );
-      const randomIndex =
-        emptyIndexes[Math.floor(Math.random() * emptyIndexes.length)];
-      if (randomIndex !== undefined) handleClick(randomIndex);
+      const aiMove = bestMove();
+      if (aiMove !== undefined) handleClick(aiMove);
     }
   }, [board, isPlayerTurn, mode, winner]);
 
   return (
     <div>
       <h1>Tic Tac Toe</h1>
-      <div>
+      <div className="w-fit grid grid-cols-3 grid-rows-3 gap-1">
         {board.map((value, index) => (
-          <div key={index} onClick={() => handleClick(index)}>
+          <div
+            key={index}
+            onClick={() => handleClick(index)}
+            className="w-24 h-24 flex justify-center items-center border-[1px] border-solid border-black text-2xl cursor-pointer"
+          >
             {value}
           </div>
         ))}
